@@ -5,6 +5,7 @@
 
 # クソゲーを作って学ぶ
 # Swift勉強会
+###### https://github.com/MasayaHayashi724/kuso-game-hands-on/blob/master/kuso-game-hands-on.pdf
 
 --- 
 
@@ -148,10 +149,6 @@ switch difficulty {
 
 ---
 
-## では、作ってみましょう！
-
----
-
 ## 素材の探し方
 
 良いフリー素材を探すのは結構時間がかかります。
@@ -163,6 +160,12 @@ switch difficulty {
 - illust AC　https://www.ac-illust.com/
 - Rド　http://www.geocities.co.jp/Milano-Cat/3319/muz/002.html
 - Folce-zero　http://folce.zatunen.com
+
+---
+
+## では、作ってみましょう！
+###### ↓完成品↓
+###### https://github.com/MasayaHayashi724/save-the-earth
 
 ---
 
