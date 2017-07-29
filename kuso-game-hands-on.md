@@ -17,7 +17,7 @@
 - :o: クソみたいなゲームが作れるようになる
 - :o: みんな仲良くなる
 - :o: Swiftが好きになる
-- :o: 何か他にもアプリを作ってみたくなる
+- :o: **何か他にもアプリを作ってみたくなる**
 
 ---
 
@@ -26,6 +26,7 @@
 1. Swiftの簡単な文法解説 (15分)
 2. ハンズオンでゲーム作ってみる (2~3時間)
 3. オリジナルのゲーム作ってみる (4~5時間?)
+(ハンズオンで作ったゲームを発展させてもOK)
 
 ( 4. リリースしてみる (30分~1時間) )
 
@@ -136,7 +137,7 @@ switch difficulty {
 
 ## Swift vs Unity
 
-#### Swift (Spritekit)
+#### Swift (**Spritekit**, Scenekit, Metal)
 
 - 無料で簡単
 - Appleが作っている
@@ -144,7 +145,6 @@ switch difficulty {
 #### Unity
 
 - Androidも作れる
-- 3Dゲームも作れる
 - Asset Store
 
 ---
@@ -166,6 +166,7 @@ switch difficulty {
 ## では、作ってみましょう！
 ###### ↓完成品↓
 ###### https://github.com/MasayaHayashi724/save-the-earth
+###### https://itunes.apple.com/jp/app/id1265444161
 
 ---
 
@@ -190,13 +191,15 @@ switch difficulty {
 ---
 
 ## 好きなゲームを作ってみよう！
+## or
+## さっきのゲームを進化させよう！
 
 ---
 
 ## 作ったゲームをリリースする
 
 - 時間があればやりましょう
-- 後日やっても大丈夫です
+- 後日やってもOK
 
 ---
 
@@ -204,6 +207,6 @@ switch difficulty {
 
 - physicsBody : 衝突を判定する範囲
 - isDynamic : trueにしておく
-- categoryBitMask : このノードのIDみたいな
+- categoryBitMask : このノードのID
 - contactTestBitMask : 衝突対象のcategoryBitMaskとのANDが1以上になれば、衝突する
 - collisionBitMask : とりあえず0にしておこう
