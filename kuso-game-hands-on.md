@@ -172,7 +172,7 @@ switch difficulty {
 
 ## シューティングゲームを作る
 
-1. プロジェクトの作成
+1. プロジェクトの作成と素材の入手
 2. メニュー画面とゲーム画面の作成
 3. 宇宙船を追加 (傾けると移動、タップでミサイル)
 4. 小惑星を追加 (ランダム位置に出現して迫ってくる)
@@ -180,6 +180,17 @@ switch difficulty {
 6. スコアとライフを導入
 7. ゲーム終了処理
 8. ベストスコアの保存
+
+---
+
+## 使用する素材
+
+1. ```$ mkdir kuso-game``` (お好きなところで)
+1. ```$ cd kuso-game```
+1. ```$ git clone https://github.com/MasayaHayashi724/kuso-game-hands-on.git```
+1. ```$ cd kuso-game-hands-on```
+1. ```$ open .```
+1. ```images```ディレクトリ内にあります
 
 ---
 
