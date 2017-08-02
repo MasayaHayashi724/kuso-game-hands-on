@@ -23,16 +23,19 @@
 
 ## お品書き
 
-1. Swiftの簡単な文法解説 (15分)
-2. ハンズオンでゲーム作ってみる (2~3時間)
-3. オリジナルのゲーム作ってみる (4~5時間?)
+1. Swiftの簡単な文法解説 (30分)
+	- 文法
+	- ゲーム開発に使えるTips
+2. ハンズオンでゲーム作ってみる (3時間)
+3. オリジナルのゲーム作ってみる (6~7時間?)
 (ハンズオンで作ったゲームを発展させてもOK)
-
-( 4. リリースしてみる (30分~1時間) )
 
 ---
 
 ## Swiftの簡単な文法解説
+#### 文法
+
+---
 
 ### 変数定義
 
@@ -51,11 +54,10 @@ let dict: [String: Int] = ["masaya": 6, "hayashi": 7]
 ```swift
 let gender: Int? = nil
 ```
+
 ---
 
-## Swiftの簡単な文法解説
-
-#### if文
+### if文
 
 ```swift
 let score = 12
@@ -77,9 +79,7 @@ if didWin {
 
 ---
 
-## Swiftの簡単な文法解説
-
-#### for文
+### for文
 
 ```swift
 for i in 0..<10 {
@@ -101,9 +101,7 @@ for number in numbers {  // for i in 0..<5 {
 
 ---
 
-## Swiftの簡単な文法解説
-
-#### enumとswitch文
+### enumとswitch文
 
 ```swift
 enum Difficulty {
@@ -125,9 +123,206 @@ switch difficulty {
 
 ---
 
+### 関数
+
+```swift
+func finishGame() {
+    isPaused = true
+}
+```
+
+```swift
+func add(arg1: Double, arg2: Double) -> Double {
+    return arg1 + arg2
+}
+
+let result = add(arg1: 1.2, arg2: 3.4)  // 4.6
+```
+
+```swift
+func add(_ arg1: Double, to arg2: Double) -> Double {
+    return arg1 + arg2
+}
+
+let result = add(1.0, to: 2.2)  // 自然言語っぽく書ける
+```
+
+---
+
+### guard文
+
+```swift
+let a: Int?
+guard let value = a else {
+    return  // aがnilであればここ
+}
+print(value)  // aの値をprint
+```
+
+```swift
+let x = 25
+guard x < 30 else {
+    return  // ここには来ない
+}
+print(x)  // ここに来る
+```
+
+---
+
+## Swiftの簡単な文法解説
+#### ゲーム開発に使えるTips
+
+---
+
+#### Nodeの表示方法
+
+```swift
+class GameScene: SKScene {
+
+    var spaceship: SKSpriteNode!
+    // `!`は絶対にあとで何かを代入するから心配しないでって意味
+    // classのプロパティは初期値を持つ必要があるが!つければOK
+    
+    override func didMove(to view: SKView) {
+       spaceship = SKSpriteNode(imageNamed: "spaceship")
+       spaceship.scale(to: CGSize(width: 50, height: 50))
+       spaceship.position = CGPoint(x: 150, y: 200)
+       addChild(spaceship)
+       // frame.widthとかframe.heightとかで画面の幅と高さ
+       // を参照できるので、うまく使いましょう。
+    }
+
+}
+```
+
+---
+
+#### Nodeの動かし方
+
+```swift
+let missile = SKSpriteNode(imageNamed: "missile")
+missile.position = CGPoint(x: 120, y: 100)
+addChild(missile)  // Nodeの追加
+
+let move = SKAction.moveTo(y: 200, duration: 0.3)
+// 移動するSKAction
+let remove = SKAction.removeFromParent()
+// 画面からNodeを消すSKAction
+let actionArray = [move, remove]
+let sequenceAction = SKAction.sequence(actionArray)
+missile.run(sequenceAction)
+// 2つ以上のSKActionを順番に実行してくれる
+```
+
+---
+
+#### ランダム値
+
+```swift
+let max: UInt32 = 5
+let randomInt = Int(arc4random_uniform(max))
+// 0~4 のランダム値(整数)
+```
+
+```swift
+let random = CGFloat(arc4random_uniform(UINT32_MAX)) /
+             CGFloat(UINT32_MAX)
+// 0~1 のランダム値(実数)
+// CGFloatのところをDoubleとかにもできる
+```
+
+---
+
+#### タイマー
+
+```swift
+class GameScene: SKScene {
+    var timer: Timer? = nil
+    
+    override func didMove(to view: SKView) {
+        timer = Timer.scheduledTimer(
+                        timeInterval: 1.0,
+                        target: self,
+                        selector: #selector(addAsteroid),
+                        userInfo: nil,
+                        repeats: true
+                        )
+    }
+    
+    func addAsteroid() {
+       // do something
+    }
+}
+// 1.0秒ごとにaddAsteroid()を呼ぶタイマーを設置する
+```
+
+---
+
+#### 端末の傾きの取得
+
+```swift
+class GameScene: SKScene {
+    let motionManger = CMMotionManager()
+    var acceleration: CGFloat = 0.0
+    override func didMove(to view: SKView) {
+        motionManger.accelerometerUpdateInterval = 0.2
+        motionManger.startAccelerometerUpdates(to: OperationQueue.current!) { (data: CMAccelerometerData?, error: Error?) in
+            guard let accelerometerData = data else { return }
+            let acceleration = accelerometerData.acceleration
+            self.acceleration = CGFloat(acceleration.x) * 0.75 + self.acceleration * 0.25
+        }
+    }
+    override func didSimulatePhysics() {
+        let nextPasitionX = spaceship.position.x + acceleration * 50
+        guard nextPasitionX > 30 else { return }
+        guard nextPasitionX < frame.width - 30 else { return }
+        spaceship.position.x = nextPasitionX
+    }
+}
+```
+
+---
+
+#### 衝突処理
+
+- `physicsBody` : 衝突を判定する範囲
+- `isDynamic` : trueにしておく
+- `categoryBitMask` : このノードのIDみたいなもの
+- `contactTestBitMask` : 衝突対象の`categoryBitMask`とのANDが1以上になれば、衝突する
+- `collisionBitMask` : とりあえず0にしておこう
+- `func didBegin(_ contact: SKPhysicsContact)` : 衝突する度に呼ばれる関数
+
+---
+
+#### ゲームの終了処理
+
+```swift
+class GameScene: SKScene {
+    var vc: GameViewController!
+    
+    func finishGame() {
+        self.vc.dismiss(animated: true, completion: nil)
+    }
+}
+```
+
+```swift
+class GameViewController: UIViewController {
+
+    ...
+
+    scene.vc = self
+    
+    ...
+
+}
+```
+
+---
+
 ## Swiftの簡単な文法解説
 
-### おわり
+#### おわり
 
 ---
 
@@ -137,7 +332,7 @@ switch difficulty {
 
 ## Swift vs Unity
 
-#### Swift (**Spritekit**, Scenekit, Metal)
+#### Swift (Spritekit(今日これ), Scenekit, Metal)
 
 - 無料で簡単
 - Appleが作っている
@@ -170,6 +365,27 @@ switch difficulty {
 
 ---
 
+## 使用する素材
+
+1. ```$ mkdir kuso-game``` (お好きなところで)
+1. ```$ cd kuso-game```
+1. ```$ git clone https://github.com/MasayaHayashi724/kuso-game-hands-on.git```
+1. ```$ cd kuso-game-hands-on```
+1. ```$ open .```
+1. ```images```ディレクトリ内に使う素材があります
+
+---
+
+### 最初にすること
+
+1. `GameScene.sks`のHello, World!を消す
+2. `GameScene.swift`の`class GameScene`の下にある`private`ついてるやつ2つ消す
+3. `GameScene.swift`の`func didMove(to ...`と`func touchesEnded(...`の`{}`の中身を全部消す
+5. `func didMove(to ...`と`func touchesEnded(...`以外の`func`を全部消す
+6. さっき`clone`した`kuso-game-hands-on`の`images`の中の画像を`Assets.xcassets`にドラッグ&ドロップ
+
+---
+
 ## シューティングゲームを作る
 
 1. プロジェクトの作成と素材の入手
@@ -183,41 +399,14 @@ switch difficulty {
 
 ---
 
-## 使用する素材
-
-1. ```$ mkdir kuso-game``` (お好きなところで)
-1. ```$ cd kuso-game```
-1. ```$ git clone https://github.com/MasayaHayashi724/kuso-game-hands-on.git```
-1. ```$ cd kuso-game-hands-on```
-1. ```$ open .```
-1. ```images```ディレクトリ内にあります
-
----
-
 ## 実機でビルドする方法
 
 - http://qiita.com/DKN915/items/7a2ce97f3758e2daf486
 - 上の記事を参考にしてね。
+- 初めてやるときはちょっと時間かかるので、PCにスマホを接続しながら他の作業をするとgood
 
 ---
 
 ## 好きなゲームを作ってみよう！
 ## or
 ## さっきのゲームを進化させよう！
-
----
-
-## 作ったゲームをリリースする
-
-- 時間があればやりましょう
-- 後日やってもOK
-
----
-
-## 衝突判定
-
-- physicsBody : 衝突を判定する範囲
-- isDynamic : trueにしておく
-- categoryBitMask : このノードのID
-- contactTestBitMask : 衝突対象のcategoryBitMaskとのANDが1以上になれば、衝突する
-- collisionBitMask : とりあえず0にしておこう
