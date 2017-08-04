@@ -372,7 +372,7 @@ class GameViewController: UIViewController {
 
 ---
 
-## 使用する素材
+### 使用する素材
 
 1. ```$ mkdir kuso-game``` (お好きなところで)
 1. ```$ cd kuso-game```
@@ -386,6 +386,7 @@ class GameViewController: UIViewController {
 ### 最初にすること
 
 1. `GameScene.sks`のHello, World!を消す
+2. `GameScene.swift`の20行目の`SKScene`を`GameScene`に
 2. `GameScene.swift`の`class GameScene`の下にある`private`ついてるやつ2つ消す
 3. `GameScene.swift`の`func didMove(to ...`と`func touchesEnded(...`の`{}`の中身を全部消す
 5. `func didMove(to ...`と`func touchesEnded(...`以外の`func`を全部消す
@@ -393,9 +394,9 @@ class GameViewController: UIViewController {
 
 ---
 
-## シューティングゲームを作る
+### シューティングゲームを作る
 
-1. プロジェクトの作成と素材の入手
+1. プロジェクトの作成
 2. メニュー画面とゲーム画面の作成
 3. 宇宙船を追加 (傾けると移動、タップでミサイル)
 4. 小惑星を追加 (ランダム位置に出現して迫ってくる)
@@ -403,6 +404,38 @@ class GameViewController: UIViewController {
 6. スコアとライフを導入
 7. ゲーム終了処理
 8. ベストスコアの保存
+9. 小惑星のスピードを上げる
+
+
+---
+
+1. プロジェクトの作成
+
+- `Xcode`開く -> `Create a new Xcode project` -> `Game`を選択して`Next`
+- `Product Name`は適当に決める
+- `Organization Name`は自分の名前とかに
+- `Organization Itendifier`は`com.[Organization Name]`とかに
+- `Swift`、`SpriteKit`、`Universal`、チェックは3つとも外す
+- 好きな場所に`Create`
+
+---
+
+2. メニュー画面とゲーム画面の作成
+
+- `Main.storyboard`に`UIViewController`をドロップ
+- 矢印をそっちに移動
+- `UIButton`をドロップする
+- `Ctrl`押しながらボタンからGame画面へドラッグ&ドロップして`Present Modally`選択
+- `Cmd + R`でビルドしてRunしてみる(左上の再生ボタンでもOK)
+- ボタン押して画面遷移できるか確認
+
+---
+
+3. 宇宙船を追加 (傾けると移動、タップでミサイル)
+
+- `spaceship`を画面に追加 https://github.com/MasayaHayashi724/save-the-earth/pull/2/commits/583d63b8b12bc9f716b7ff0b654b832a99b50a3c
+- タップでミサイルを発射する https://github.com/MasayaHayashi724/save-the-earth/pull/2/commits/a5c02dab1b56cf554a8d7b2e03901f73c1a21258
+- 傾きによって`spaceship`を動かす https://github.com/MasayaHayashi724/save-the-earth/pull/2/commits/42158d7d8a5cc942aab1be72c1eb2d35a1bec481
 
 ---
 
@@ -411,6 +444,52 @@ class GameViewController: UIViewController {
 - http://qiita.com/DKN915/items/7a2ce97f3758e2daf486
 - 上の記事を参考にしてね。
 - 初めてやるときはちょっと時間かかるので、PCにスマホを接続しながら他の作業をするとgood
+
+---
+
+4. 小惑星を追加 (ランダム位置に出現して迫ってくる)
+
+- 1秒ごとに小惑星を追加
+- 3種類からランダムで選択
+- ランダムな位置に追加
+- 衝突判定を追加
+- 画面下方向に動かす
+- https://github.com/MasayaHayashi724/save-the-earth/pull/3/commits/cbfe4dded7516d488681083809b64f8355f5f23e
+
+---
+
+5. 衝突処理 (ミサイル-小惑星、小惑星-宇宙船or地球)
+
+- `File` -> `New` -> `File` -> `SpriteKit Particle File` -> `Fire`を選択 -> `Explosion.sks`とかの名前で保存
+- 衝突判定を実装 https://github.com/MasayaHayashi724/save-the-earth/pull/4/commits/9e3fe27920a1ad9abb358625f23a9835e55fc034
+
+---
+
+6. スコアとライフを導入
+
+- ライフを導入 https://github.com/MasayaHayashi724/save-the-earth/pull/5/commits/51c107a37e2b0d453ffa2b7bdb3ce2effafbf37a
+- スコアを追加 https://github.com/MasayaHayashi724/save-the-earth/pull/5/commits/236cef86cb00941a71582a0a5a7c4464345c10da
+- スコアを増加 https://github.com/MasayaHayashi724/save-the-earth/pull/5/commits/09da4369aa325f0bc3b8eb1d41f003d4a82ca36b
+
+---
+
+7. ゲーム終了処理
+
+- ゲームを一時停止 https://github.com/MasayaHayashi724/save-the-earth/pull/6/commits/09e409f22c40cc56c5375ee7d89fe39e56810544
+- メニュー画面に戻る https://github.com/MasayaHayashi724/save-the-earth/pull/6/commits/0e5fd1736c84588f25af55b9bcdd36637596768b
+
+---
+
+8. ベストスコアの保存
+
+- ベストスコアを表示 https://github.com/MasayaHayashi724/save-the-earth/pull/7/commits/be034d169278fc53d97a2f5366d533281889902c
+- ベストスコアを保存 https://github.com/MasayaHayashi724/save-the-earth/pull/7/commits/18e6f1df8beed8c6780d2a24398d68deefb276ee
+
+---
+
+9. 小惑星のスピードを上げる
+
+- https://github.com/MasayaHayashi724/save-the-earth/pull/7/commits/aca7c84e0aae591613a9e82a2e3564ebdbcf21c8
 
 ---
 
