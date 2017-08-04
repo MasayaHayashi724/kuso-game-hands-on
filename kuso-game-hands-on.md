@@ -15,8 +15,7 @@
 - :x: ゲームが作れるようになる
 - :x: クソゲーが作れるようになる
 - :o: クソみたいなゲームが作れるようになる
-- :o: みんな仲良くなる
-- :o: Swiftが好きになる
+- :o: アプリ開発の楽しさを知る
 - :o: **何か他にもアプリを作ってみたくなる**
 
 ---
@@ -83,12 +82,12 @@ if didWin {
 
 ```swift
 for i in 0..<10 {
-    print(i)
+    print(i)  // 9まで表示される
 }
 ```
 ```swift
 for i in 0...10 {
-    print(i)
+    print(i)  // 10まで表示される
 }
 ```
 
@@ -96,29 +95,7 @@ for i in 0...10 {
 let numbers = [1, 2, 3, 4, 5]
 for number in numbers {  // for i in 0..<5 {
     print(number)        //     print(numbers[i])
-}                        // }
-```
-
----
-
-### enumとswitch文
-
-```swift
-enum Difficulty {
-    case easy
-    case normal
-    case hard
-}
-```
-
-```swift
-var difficulty: Difficulty = .normal
-
-switch difficulty {
-    case .easy: print("easy")
-    case .normal: print("normal")
-    case .hard: print("hard")
-}
+}                        // }      とするより安全(動作は同じ)
 ```
 
 ---
@@ -144,7 +121,7 @@ func add(_ arg1: Double, to arg2: Double) -> Double {
     return arg1 + arg2
 }
 
-let result = add(1.0, to: 2.2)  // 自然言語っぽく書ける
+let result = add(1.0, to: 2.2)  // 自然言語っぽくも書ける
 ```
 
 ---
@@ -165,6 +142,13 @@ guard x < 30 else {
     return  // ここには来ない
 }
 print(x)  // ここに来る
+```
+
+```swift
+let x = 25
+if x < 30 {
+    print(x)  // これと同じ
+}
 ```
 
 ---
@@ -229,6 +213,7 @@ let random = CGFloat(arc4random_uniform(UINT32_MAX)) /
              CGFloat(UINT32_MAX)
 // 0~1 のランダム値(実数)
 // CGFloatのところをDoubleとかにもできる
+// これにframe.widthを掛けたりすると画面幅までのランダム位置に
 ```
 
 ---
@@ -253,7 +238,6 @@ class GameScene: SKScene {
        // do something
     }
 }
-// 1.0秒ごとにaddAsteroid()を呼ぶタイマーを設置する
 ```
 
 ---
@@ -291,6 +275,29 @@ class GameScene: SKScene {
 - `contactTestBitMask` : 衝突対象の`categoryBitMask`とのANDが1以上になれば、衝突する
 - `collisionBitMask` : とりあえず0にしておこう
 - `func didBegin(_ contact: SKPhysicsContact)` : 衝突する度に呼ばれる関数
+
+---
+
+#### データの保存
+
+```swift
+// デフォルト値の保存
+UserDefaults.standard.register(defaults: ["best": 0])
+UserDefaults.standard
+            .register(defaults: ["tutorial": false])
+UserDefaults.standard
+            .register(defaults: ["name": "masaya"])
+// 保存している値の更新
+UserDefaults.standard.set(120, forKey: "best")
+UserDefaults.standard.set(true, forKey: "tutorial")
+UserDefaults.standard.set("hayashi", forKey: "name")
+// 保存している値の読み出し
+UserDefaults.standard.integer(forKey: "best")
+UserDefaults.standard.bool(forKey: "tutorial")
+UserDefaults.standard.string(forKey: "name")
+// 値の削除
+UserDefaults.standard.removeObject(forKey: "name")
+```
 
 ---
 
